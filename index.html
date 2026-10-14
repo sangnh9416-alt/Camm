@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#000000">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Camera</title>
+    <!-- Liên kết PWA manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <style>
         * {
             box-sizing: border-box;
@@ -77,7 +78,7 @@
             letter-spacing: 0.5px;
         }
 
-        /* 2. Khung ngắm camera hoàn toàn sạch sẽ */
+        /* 2. Khung ngắm camera sạch sẽ */
         .viewfinder {
             flex: 1;
             position: relative;
@@ -87,7 +88,7 @@
             overflow: hidden;
         }
 
-        /* Các góc khung ngắm (Corner brackets chuẩn máy ảnh) */
+        /* Các góc khung ngắm */
         .corner {
             position: absolute;
             width: 18px;
@@ -212,7 +213,7 @@
             align-items: center;
         }
 
-        /* Thông báo kín đáo (Chỉ hiện nhẹ khi người dùng bấm vào) */
+        /* Thông báo ẩn kín đáo */
         .toast-alert {
             position: fixed;
             top: 65px;
@@ -241,7 +242,7 @@
 </head>
 <body>
 
-    <!-- 1. Thanh phía trên -->
+    <!-- Thanh phía trên -->
     <div class="top-bar">
         <div class="top-icons">
             <button class="top-icon" onclick="showAlert('Đã khóa')">⚡</button>
@@ -256,7 +257,7 @@
         </div>
     </div>
 
-    <!-- 2. Khung ngắm sạch sẽ không chữ -->
+    <!-- Khung ngắm sạch sẽ -->
     <div class="viewfinder">
         <div class="corner corner-tl"></div>
         <div class="corner corner-tr"></div>
@@ -264,7 +265,7 @@
         <div class="corner corner-br"></div>
     </div>
 
-    <!-- 3. Thanh Zoom -->
+    <!-- Thanh Zoom -->
     <div class="zoom-bar">
         <button class="zoom-btn" onclick="showAlert('Đã khóa')">0.6</button>
         <button class="zoom-btn active" onclick="showAlert('Đã khóa')">1x</button>
@@ -273,7 +274,7 @@
         <button class="zoom-btn" onclick="showAlert('Đã khóa')">5</button>
     </div>
 
-    <!-- 4. Thanh Chế độ -->
+    <!-- Thanh Chế độ -->
     <div class="mode-selector">
         <button class="mode-item" onclick="switchMode(this)">Chuyên nghiệp</button>
         <button class="mode-item" onclick="switchMode(this)">Video</button>
@@ -282,7 +283,7 @@
         <button class="mode-item" onclick="switchMode(this)">Tài liệu</button>
     </div>
 
-    <!-- 5. Thanh điều khiển dưới -->
+    <!-- Thanh điều khiển dưới -->
     <div class="bottom-controls">
         <div class="gallery-thumbnail" onclick="showAlert('Thư viện trống')">📁</div>
         
@@ -293,7 +294,6 @@
         <button class="switch-camera-btn" onclick="showAlert('Đã khóa')">🔄</button>
     </div>
 
-    <!-- Thông báo ẩn -->
     <div class="toast-alert" id="toast">Máy ảnh đang bị khóa</div>
 
     <script>
