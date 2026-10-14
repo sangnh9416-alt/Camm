@@ -1,13 +1,9 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#000000">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Camera Giả Lập - Giao diện Pro</title>
+    <title>Camera</title>
     <style>
         * {
             box-sizing: border-box;
@@ -33,14 +29,14 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 16px;
+            padding: 14px 16px;
             background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
             z-index: 10;
         }
 
         .top-icons {
             display: flex;
-            gap: 20px;
+            gap: 22px;
             align-items: center;
         }
 
@@ -57,8 +53,12 @@
             background: rgba(40, 40, 40, 0.6);
             border: none;
             color: white;
-            padding: 4px 12px;
-            border-radius: 15px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             font-size: 14px;
             cursor: pointer;
         }
@@ -67,79 +67,52 @@
             background: #ffffff;
             color: #000;
             font-weight: bold;
-            font-size: 10px;
-            padding: 3px 6px;
-            border-radius: 4px;
+            font-size: 9px;
+            padding: 3px 5px;
+            border-radius: 3px;
             letter-spacing: 0.5px;
         }
 
-        /* 2. Khung ngắm camera (Viewfinder) */
+        /* 2. Khung ngắm camera hoàn toàn sạch sẽ */
         .viewfinder {
             flex: 1;
             position: relative;
-            background: #080808;
-            margin: 4px 8px;
-            border-radius: 8px;
+            background: #000000;
+            margin: 2px 6px;
+            border-radius: 6px;
             overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
 
-        /* Các góc khung ngắm (Corner brackets) */
+        /* Các góc khung ngắm (Corner brackets chuẩn máy ảnh) */
         .corner {
             position: absolute;
-            width: 20px;
-            height: 20px;
-            border-color: rgba(255, 255, 255, 0.5);
+            width: 18px;
+            height: 18px;
+            border-color: rgba(255, 255, 255, 0.4);
             border-style: solid;
             pointer-events: none;
         }
-        .corner-tl { top: 10px; left: 10px; border-width: 2px 0 0 2px; }
-        .corner-tr { top: 10px; right: 10px; border-width: 2px 2px 0 0; }
-        .corner-bl { bottom: 10px; left: 10px; border-width: 0 0 2px 2px; }
-        .corner-br { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; }
-
-        /* Biểu tượng thông báo khóa ở giữa khung hình */
-        .lock-indicator {
-            text-align: center;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.75);
-            border: 1px solid rgba(255, 82, 82, 0.3);
-            border-radius: 12px;
-            z-index: 5;
-            backdrop-filter: blur(5px);
-        }
-
-        .lock-indicator span {
-            font-size: 40px;
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        .lock-indicator p {
-            color: #ff5252;
-            font-size: 13px;
-            font-weight: bold;
-        }
+        .corner-tl { top: 8px; left: 8px; border-width: 2px 0 0 2px; }
+        .corner-tr { top: 8px; right: 8px; border-width: 2px 2px 0 0; }
+        .corner-bl { bottom: 8px; left: 8px; border-width: 0 0 2px 2px; }
+        .corner-br { bottom: 8px; right: 8px; border-width: 0 2px 2px 0; }
 
         /* 3. Thanh tùy chỉnh Zoom */
         .zoom-bar {
             display: flex;
             justify-content: space-around;
             align-items: center;
-            padding: 8px 20px;
+            padding: 6px 24px;
             background: #000;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .zoom-btn {
             background: none;
             border: none;
-            color: #aaa;
+            color: #888;
             cursor: pointer;
             padding: 4px 8px;
-            font-weight: 500;
         }
 
         .zoom-btn.active {
@@ -150,24 +123,23 @@
         /* 4. Thanh chọn Chế độ chụp */
         .mode-selector {
             display: flex;
-            gap: 24px;
+            gap: 26px;
             overflow-x: auto;
-            padding: 10px 20px;
+            padding: 8px 20px;
             background: #000;
             white-space: nowrap;
-            scrollbar-width: none; /* Ẩn thanh cuộn trên Firefox */
+            scrollbar-width: none;
         }
         .mode-selector::-webkit-scrollbar {
-            display: none; /* Ẩn thanh cuộn trên Chrome/Safari */
+            display: none;
         }
 
         .mode-item {
-            color: #888;
-            font-size: 15px;
+            color: #777;
+            font-size: 14px;
             cursor: pointer;
             background: none;
             border: none;
-            font-weight: 400;
         }
 
         .mode-item.active {
@@ -175,21 +147,21 @@
             font-weight: bold;
         }
 
-        /* 5. Thanh điều khiển đáy (Thư viện, Nút chụp, Đổi camera) */
+        /* 5. Thanh điều khiển đáy */
         .bottom-controls {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 30px 30px 30px;
+            padding: 12px 30px 32px 30px;
             background: #000;
         }
 
         .gallery-thumbnail {
-            width: 45px;
-            height: 45px;
+            width: 44px;
+            height: 44px;
             border-radius: 8px;
-            background: #222;
-            border: 1.5px solid #555;
+            background: #1a1a1a;
+            border: 1.5px solid #444;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -197,10 +169,10 @@
             cursor: pointer;
         }
 
-        /* Nút chụp ảnh chính (Shutter) */
+        /* Nút chụp ảnh chính */
         .shutter-btn {
-            width: 72px;
-            height: 72px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             background: transparent;
             border: 4px solid #ffffff;
@@ -227,33 +199,33 @@
             background: none;
             border: none;
             color: white;
-            font-size: 22px;
+            font-size: 20px;
             cursor: pointer;
-            width: 45px;
-            height: 45px;
+            width: 44px;
+            height: 44px;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        /* Hộp thông báo nổi (Toast) khi bấm bất kỳ nút nào */
+        /* Thông báo kín đáo (Chỉ hiện nhẹ khi người dùng bấm vào) */
         .toast-alert {
             position: fixed;
-            top: 70px;
+            top: 65px;
             left: 50%;
             transform: translateX(-50%) translateY(-20px);
-            background: rgba(255, 69, 58, 0.95);
-            color: white;
-            padding: 10px 18px;
-            border-radius: 8px;
-            font-size: 13px;
+            background: rgba(30, 30, 30, 0.9);
+            color: #ff453a;
+            border: 1px solid rgba(255, 69, 58, 0.3);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
             font-weight: 500;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s ease;
             z-index: 100;
-            text-align: center;
         }
 
         .toast-alert.show {
@@ -268,41 +240,36 @@
     <!-- 1. Thanh phía trên -->
     <div class="top-bar">
         <div class="top-icons">
-            <button class="top-icon" onclick="showAlert('Đèn flash đã bị khóa')">⚡</button>
-            <button class="top-icon" onclick="showAlert('Tính năng HDR bị vô hiệu hóa')">HDR</button>
+            <button class="top-icon" onclick="showAlert('Đã khóa')">⚡</button>
+            <button class="top-icon" onclick="showAlert('Đã khóa')">⏳</button>
         </div>
         <div>
-            <button class="pill-dropdown" onclick="showAlert('Menu cài đặt đã bị khóa')">⌄</button>
+            <button class="pill-dropdown" onclick="showAlert('Đã khóa')">⌄</button>
         </div>
         <div class="top-icons">
-            <button class="top-icon" onclick="showAlert('Bộ lọc màu bị khóa')">⚙️</button>
-            <div class="brand-badge">CAM</div>
+            <button class="top-icon" onclick="showAlert('Đã khóa')">⚙️</button>
+            <div class="brand-badge">LEICA</div>
         </div>
     </div>
 
-    <!-- 2. Khung ngắm camera giả lập -->
+    <!-- 2. Khung ngắm sạch sẽ không chữ -->
     <div class="viewfinder">
         <div class="corner corner-tl"></div>
         <div class="corner corner-tr"></div>
         <div class="corner corner-bl"></div>
         <div class="corner corner-br"></div>
-
-        <div class="lock-indicator">
-            <span>🔒</span>
-            <p>QUYỀN TRUY CẬP BỊ KHÓA</p>
-        </div>
     </div>
 
-    <!-- 3. Thanh chọn mức Zoom -->
+    <!-- 3. Thanh Zoom -->
     <div class="zoom-bar">
-        <button class="zoom-btn" onclick="showAlert('Không thể thay đổi tiêu cự')">0.6</button>
-        <button class="zoom-btn active" onclick="showAlert('Camera đang khóa ở mức 1x')">1x</button>
-        <button class="zoom-btn" onclick="showAlert('Không thể thay đổi tiêu cự')">2</button>
-        <button class="zoom-btn" onclick="showAlert('Không thể thay đổi tiêu cự')">2.6</button>
-        <button class="zoom-btn" onclick="showAlert('Không thể thay đổi tiêu cự')">5</button>
+        <button class="zoom-btn" onclick="showAlert('Đã khóa')">0.6</button>
+        <button class="zoom-btn active" onclick="showAlert('Đã khóa')">1x</button>
+        <button class="zoom-btn" onclick="showAlert('Đã khóa')">2</button>
+        <button class="zoom-btn" onclick="showAlert('Đã khóa')">2.6</button>
+        <button class="zoom-btn" onclick="showAlert('Đã khóa')">5</button>
     </div>
 
-    <!-- 4. Thanh chọn Chế độ -->
+    <!-- 4. Thanh Chế độ -->
     <div class="mode-selector">
         <button class="mode-item" onclick="switchMode(this)">Chuyên nghiệp</button>
         <button class="mode-item" onclick="switchMode(this)">Video</button>
@@ -311,19 +278,19 @@
         <button class="mode-item" onclick="switchMode(this)">Tài liệu</button>
     </div>
 
-    <!-- 5. Thanh điều khiển dưới cùng -->
+    <!-- 5. Thanh điều khiển dưới -->
     <div class="bottom-controls">
-        <div class="gallery-thumbnail" onclick="showAlert('Thư viện ảnh đã bị khóa')">📁</div>
+        <div class="gallery-thumbnail" onclick="showAlert('Thư viện trống')">📁</div>
         
-        <div class="shutter-btn" onclick="showAlert('Lỗi: Không thể chụp ảnh do phần cứng bị khóa!')">
+        <div class="shutter-btn" onclick="showAlert('Máy ảnh đang bị khóa')">
             <div class="shutter-inner"></div>
         </div>
 
-        <button class="switch-camera-btn" onclick="showAlert('Không thể chuyển đổi camera trước/sau')">🔄</button>
+        <button class="switch-camera-btn" onclick="showAlert('Đã khóa')">🔄</button>
     </div>
 
-    <!-- Khung thông báo lỗi bật lên -->
-    <div class="toast-alert" id="toast">Cảnh báo: Ứng dụng Camera đang bị khóa!</div>
+    <!-- Thông báo ẩn -->
+    <div class="toast-alert" id="toast">Máy ảnh đang bị khóa</div>
 
     <script>
         let timer = null;
@@ -336,7 +303,7 @@
             if (timer) clearTimeout(timer);
             timer = setTimeout(() => {
                 toast.classList.remove('show');
-            }, 2500);
+            }, 2000);
         }
 
         function switchMode(element) {
@@ -344,7 +311,7 @@
                 item.classList.remove('active');
             });
             element.classList.add('active');
-            showAlert('Chế độ "' + element.textContent + '" đang bị khóa!');
+            showAlert('Đã khóa');
         }
     </script>
 </body>
