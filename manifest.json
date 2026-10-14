@@ -1,6 +1,6 @@
 {
   "name": "Camera Giả Lập Pro",
-  "short_name": "FakeCamera",
+  "short_name": "Camera",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#000000",
